@@ -1,3 +1,4 @@
+import BasicBoard from "@/components/common/board/BasicBoard";
 import LabelCalendar from "@/components/common/calendar/LabelCalendar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -35,8 +36,8 @@ const CreatePage = () => {
           </div>
         </div>
       </header>
-      <main className="flex items-center justify-center w-full h-[calc(100%-250px)] py-[28px] px-4">
-        <div className="flex flex-col items-center">
+      <main className="flex items-start justify-center w-full h-[calc(100%-250px)] py-[28px] px-4">
+        {/* <div className="flex flex-col items-center">
           <span className="text-[24px] font-bold text-[#454545]">
             There is no Board yet.
           </span>
@@ -46,7 +47,8 @@ const CreatePage = () => {
           <button className="flex items-center justify-center w-[74px] h-[74px] outline-none border-none cursor-pointer">
             +
           </button>
-        </div>
+        </div> */}
+        <BasicBoard />
       </main>
     </div>
   );
