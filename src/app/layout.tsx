@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "@/styles/globals.css";
 import SideNavigation from "@/components/common/navigation/SideNavigation";
+import { Toaster } from "@/components/ui/sonner";
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={`${robotoSans.variable} antialiased`}>
         <SideNavigation />
         {children}
+        <Toaster />
       </body>
     </html>
   );

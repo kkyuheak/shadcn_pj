@@ -15,11 +15,41 @@ import LabelCalendar from "../calendar/LabelCalendar";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
+import { toast } from "sonner";
+import { supabase } from "@/utils/supabase";
 
 const MarkdownDialog = () => {
-  const [contents, setContents] = useState<string | undefined>(
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string | undefined>(
     "**Hello world!!!**"
   );
+
+  const onSubmit = async () => {
+    if (!title.trim().length || !content?.trim().length) {
+      toast.error("제목과 내용을 입력해주세요.");
+      return;
+    }
+    console.log("title", title);
+    console.log("content", content);
+
+    const { data, error, status } = await supabase
+      .from("todos")
+      .insert([{ title, content }])
+      .select();
+
+    if (error) {
+      console.log(error);
+      toast.error("에러가 발생했습니다.");
+    }
+
+    if (status === 201) {
+      toast.success("성공적으로 등록되었습니다.");
+      setTitle("");
+      setContent("**Hello world!!!**");
+    }
+
+    console.log(data);
+  };
 
   return (
     <Dialog>
@@ -36,6 +66,8 @@ const MarkdownDialog = () => {
               <input
                 type="text"
                 placeholder="제목을 작성하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="w-full border-none outline-none font-normal text-[24px] text-[#303030] placeholder:font-normal placeholder:text-[#bdbdbd]"
               />
             </div>
@@ -51,8 +83,8 @@ const MarkdownDialog = () => {
           <div className="w-[45vw] h-[50vh]">
             <MDEditor
               height={100 + "%"}
-              value={contents}
-              onChange={setContents}
+              value={content}
+              onChange={setContent}
             />
           </div>
         </DialogHeader>
@@ -65,6 +97,7 @@ const MarkdownDialog = () => {
             </DialogClose>
             <button
               type="submit"
+              onClick={onSubmit}
               className="cursor-pointer font-normal py-2 px-4 rounded-lg border-orange-500 bg-orange-400  text-white hover:bg-orange-300 hover:text-white"
             >
               등록
